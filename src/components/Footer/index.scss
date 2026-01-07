@@ -1,0 +1,47 @@
+.footer {
+  width: 100vw;
+  margin: 0 auto;
+  padding: 0 5px;
+
+  @media (min-width: 730px) {
+    padding: 10px 20px;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    margin: 0;
+    padding-bottom: 3svh;
+
+    @media (min-width: 730px) {
+      padding-bottom: 0;
+    }
+
+    li {
+      padding: 30px 15px;
+      text-align: left;
+      flex: none;
+
+      a {
+        cursor: pointer;
+      }
+
+      @media (min-width: 730px) {
+        padding: 10px 0px;
+      }
+    }
+  }
+
+  @media (min-width: 730px) {
+    .list {
+      justify-content: start;
+      flex-direction: row;
+
+      li {
+        margin: 0 25px 0 0;
+        text-align: left;
+      }
+    }
+  }
+}
