@@ -31,12 +31,6 @@ A modern, responsive personal website built with Gatsby.js, featuring a sleek de
 - Node.js (v14 or later)
 - Yarn or npm package manager
 
-### Installation
-
-1. Clone the repository:
-   ```bash
-   i will put later
-   ```
 
 2. Install dependencies:
    ```bash
