@@ -10,7 +10,7 @@ import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
 import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
 
 
-import NathanKindaCV from "../files/Curriculum Vitae_.pdf";
+import NathanKindaCV from "../files/Kinda's CV.pdf";
 import { State } from "../components/Layout";
 
 // Data

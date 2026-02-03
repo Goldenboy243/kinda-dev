@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 import Cursor from "../components/Cursor";
 
 // Files
-import NathanKindaCV from "../files/Curriculum Vitae_.pdf" ;
+import NathanKindaCV from "../files/Kinda's CV.pdf";
 
 // Styles
 import "../styles/global.scss";
