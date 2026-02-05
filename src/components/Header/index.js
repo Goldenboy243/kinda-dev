@@ -141,14 +141,9 @@ const Header = ({ onThemeChange, theme, disableScramble = false }) => {
         </li>
 
         <li>
-          <a
-            href="#"
-            title="Coming soon"
-            onClick={(e) => {
-              e.preventDefault();
-              setModalMessage("Experiments: Coming soon");
-              setModalIsOpened(true);
-            }}
+          <Link
+            to="/experiments/"
+            className={pathname?.startsWith("/experiments") ? `-active` : ``}
           >
             {!disableScramble ? (
               <ScrambleText
@@ -159,7 +154,7 @@ const Header = ({ onThemeChange, theme, disableScramble = false }) => {
             ) : (
               <>Experiments</>
             )}
-          </a>
+          </Link>
         </li>
         <li>
           <Link
