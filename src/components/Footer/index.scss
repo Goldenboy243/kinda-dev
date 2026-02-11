@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 0 5px;
 
-  @media (min-width: 730px) {
+  @media (min-width: 768px) {
     padding: 10px 20px;
   }
 
@@ -14,7 +14,7 @@
     margin: 0;
     padding-bottom: 3svh;
 
-    @media (min-width: 730px) {
+    @media (min-width: 768px) {
       padding-bottom: 0;
     }
 
@@ -27,13 +27,13 @@
         cursor: pointer;
       }
 
-      @media (min-width: 730px) {
+      @media (min-width: 768px) {
         padding: 10px 0px;
       }
     }
   }
 
-  @media (min-width: 730px) {
+  @media (min-width: 768px) {
     .list {
       justify-content: start;
       flex-direction: row;

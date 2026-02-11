@@ -57,6 +57,16 @@ code {
   color: var(--bg-primary);
 }
 
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -115,7 +125,7 @@ h1 {
   margin: 10px 0 5px;
   font-size: 30px;
 
-  @media (min-width: 730px) {
+  @media (min-width: 768px) {
     font-size: 40px;
   }
 }
@@ -125,7 +135,7 @@ h2 {
   font-weight: lighter;
   margin: 0 0 10px;
 
-  @media (min-width: 730px) {
+  @media (min-width: 768px) {
     font-size: 18px;
   }
 
@@ -219,14 +229,14 @@ blockquote {
 
 .only-desktop.only-desktop {
   display: none;
-  @media (min-width: 730px) {
+  @media (min-width: 768px) {
     display: flex;
   }
 }
 
 .only-mobile.only-mobile {
   display: flex;
-  @media (min-width: 730px) {
+  @media (min-width: 768px) {
     display: none;
   }
 }

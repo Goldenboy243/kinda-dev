@@ -142,14 +142,14 @@ const About = () => {
   };
 
   const [isOpened, setIsOpened] = React.useState(true);
+  const [isMobile, setIsMobile] = React.useState(true);
+
   React.useEffect(() => {
     setTimeout(() => {
       setIsOpened(false);
     }, 800);
+    setIsMobile(window.innerWidth < 768);
   }, []);
-
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth < 1440 : true;
 
   return (
     <>

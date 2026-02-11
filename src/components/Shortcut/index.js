@@ -8,10 +8,13 @@ import { State } from "../Layout";
 
 const Shortcut = ({ text }) => {
   const { setModalIsOpened } = React.useContext(State);
-  const isMac = typeof window !== "undefined" && /Mac|iPhone|iPad|iPod/.test(navigator.platform);
+  const [isMobile, setIsMobile] = React.useState(true);
+  const [isMac, setIsMac] = React.useState(false);
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth < 730 : true;
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    setIsMac(/Mac|iPhone|iPad|iPod/.test(navigator.platform));
+  }, []);
 
   return isMobile ? (
     <div className="shortcut" onClick={() => setModalIsOpened(true)}>

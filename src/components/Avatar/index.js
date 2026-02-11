@@ -2,7 +2,6 @@ import React, {
   useEffect,
   useRef,
   useState,
-  useImperativeHandle,
   forwardRef,
 } from "react";
 import * as THREE from "three";
@@ -32,12 +31,6 @@ const Avatar = forwardRef(({ theme }, ref) => {
     directional: theme === "light" ? 1.3 : 0.8,
     mouse: theme === "light" ? 4 : 2,
   });
-  const surprisedMeshRef = useRef(null);
-  const surprisedIndexRef = useRef(null);
-  const surprisedValueRef = useRef(0);
-  const surprisedTargetRef = useRef(0);
-
-  const [surprisedTarget, setSurprisedTarget] = useState(0);
 
   // Update target intensities when theme changes
   useEffect(() => {
@@ -49,22 +42,26 @@ const Avatar = forwardRef(({ theme }, ref) => {
   }, [theme]);
 
   const getModelScale = () => {
-    if (window.innerWidth <= 480) {
-      return baseScaleRef.current * 0.4;
+    const w = window.innerWidth;
+    // Smooth scale curve based on viewport width
+    // Mobile (<= 480): 0.35, Tablet (~768): 0.5, Desktop (~1280): 0.65, Large (1920+): 0.8
+    let factor;
+    if (w <= 480) {
+      factor = 0.35;
+    } else if (w <= 768) {
+      // Interpolate 0.35 → 0.5
+      factor = 0.35 + (0.15 * (w - 480)) / (768 - 480);
+    } else if (w <= 1280) {
+      // Interpolate 0.5 → 0.65
+      factor = 0.5 + (0.15 * (w - 768)) / (1280 - 768);
+    } else if (w <= 1920) {
+      // Interpolate 0.65 → 0.8
+      factor = 0.65 + (0.15 * (w - 1280)) / (1920 - 1280);
+    } else {
+      // 1920+ → cap at 0.85
+      factor = Math.min(0.85, 0.8 + (0.05 * (w - 1920)) / (2560 - 1920));
     }
-    if (window.innerWidth <= 768) {
-      return baseScaleRef.current * 0.6;
-    }
-    if (window.innerWidth <= 1368) {
-      return baseScaleRef.current * 0.6;
-    }
-    if (window.innerWidth >= 2560) {
-      return baseScaleRef.current * 0.7;
-    }
-    if (window.innerWidth >= 1920) {
-      return baseScaleRef.current * 0.9;
-    }
-    return baseScaleRef.current;
+    return baseScaleRef.current * factor;
   };
 
   const updateModelScale = (model) => {
@@ -94,23 +91,28 @@ const Avatar = forwardRef(({ theme }, ref) => {
     const headCenter = new THREE.Vector3();
     headBoneRef.current.getWorldPosition(headCenter);
 
-    // Adjust vertical offset to center on eyes/face (portrait composition)
-    let yOffset = 0;
-    if (window.innerWidth <= 768) {
-      yOffset = -0.05; // Mobile: bring frame down
-    } else if (window.innerWidth <= 1368) {
-      yOffset = -0.1; // Tablet: lower to eye level
+    // Smooth vertical offset based on viewport width
+    const w = window.innerWidth;
+    let yOffset;
+    if (w <= 480) {
+      yOffset = 0.05;  // Mobile: slightly above center
+    } else if (w <= 768) {
+      yOffset = 0;      // Tablet: center on face
+    } else if (w <= 1280) {
+      yOffset = -0.08;  // Desktop: lower to eye level
     } else {
-      yOffset = -0.15; // Desktop: drop further to center face
+      yOffset = -0.12;  // Large: drop a bit more
     }
     headCenter.y += yOffset;
 
     const camera = controlsRef.current.object;
-    // Slightly wider FOV to avoid cropping while staying close
-    camera.fov = 18;
-    // Raise camera and target to compensate for low head bone (center on forehead/eyes)
+    // Responsive FOV: wider on mobile so avatar isn't cropped
+    const fov = w <= 480 ? 24 : w <= 768 ? 22 : 18;
+    camera.fov = fov;
+    // Responsive camera distance: closer on mobile
+    const camZ = w <= 480 ? 2.4 : w <= 768 ? 2.6 : 2.9;
     const yBias = 0.25;
-    camera.position.set(headCenter.x, headCenter.y + yBias, 2.9);
+    camera.position.set(headCenter.x, headCenter.y + yBias, camZ);
     camera.lookAt(headCenter.x, headCenter.y + yBias, headCenter.z);
     controlsRef.current.target.set(headCenter.x, headCenter.y + yBias, headCenter.z);
     controlsRef.current.update();
@@ -253,22 +255,11 @@ const Avatar = forwardRef(({ theme }, ref) => {
         scene.add(model);
         modelRef.current = model;
         model.traverse((node) => {
-          if (node.isMesh && node.morphTargetDictionary) {
-            const surprisedIndex = node.morphTargetDictionary["Surprised"];
-            if (
-              typeof surprisedIndex === "number" &&
-              node.morphTargetInfluences
-            ) {
-              surprisedMeshRef.current = node;
-              surprisedIndexRef.current = surprisedIndex;
-            }
-          }
           if (
             node.isMesh &&
             node.material &&
             node.material.name === "avaturn_look_0_material"
           ) {
-            // Save original properties only once
             if (!originalMaterialRef.current.saved) {
               originalMaterialRef.current = {
                 color: node.material.color.clone(),
@@ -281,10 +272,6 @@ const Avatar = forwardRef(({ theme }, ref) => {
             headBoneRef.current = node;
           }
         });
-
-        // NOTE: avatar-6.glb has no morph targets (blend shapes) and no eye/eyelid bones.
-        // To enable blinking, re-export from Avaturn with "ARKit blend shapes" enabled,
-        // which adds eyeBlinkLeft/eyeBlinkRight morph targets.
         
         focusOnHead(model);
       },
@@ -308,24 +295,6 @@ const Avatar = forwardRef(({ theme }, ref) => {
         modelRef.current.rotation.y = Math.sin(t * 0.5) * 0.005;
         modelRef.current.rotation.x = Math.sin(t * 0.1) * 0.0001;
         modelRef.current.rotation.z = Math.cos(t * 0.4) * 0.00015;
-
-        if (
-          surprisedMeshRef.current &&
-          typeof surprisedIndexRef.current === "number"
-        ) {
-          // Smoothly lerp the Surprised morph target value
-          surprisedValueRef.current = THREE.MathUtils.lerp(
-            surprisedValueRef.current,
-            surprisedTargetRef.current,
-            0.1 // Adjust for speed
-          );
-          surprisedMeshRef.current.morphTargetInfluences[
-            surprisedIndexRef.current
-          ] = surprisedValueRef.current;
-          surprisedMeshRef.current.needsUpdate = true;
-          if (surprisedMeshRef.current.material)
-            surprisedMeshRef.current.material.needsUpdate = true;
-        }
       }
 
       // Smoothly interpolate light intensities
@@ -382,6 +351,7 @@ const Avatar = forwardRef(({ theme }, ref) => {
       renderer.setSize(width, height);
       if (modelRef.current) {
         updateModelScale(modelRef.current);
+        focusOnHead(modelRef.current);
       }
     };
     handleResize();
@@ -421,26 +391,6 @@ const Avatar = forwardRef(({ theme }, ref) => {
       }
     });
   }, [theme]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Listen for hover events on all <a> elements
-  useEffect(() => {
-    function handleLinkEnter(e) {
-      if (e.target.tagName === "A") {
-        surprisedTargetRef.current = 1;
-      }
-    }
-    function handleLinkLeave(e) {
-      if (e.target.tagName === "A") {
-        surprisedTargetRef.current = 0;
-      }
-    }
-    document.addEventListener("mouseenter", handleLinkEnter, true);
-    document.addEventListener("mouseleave", handleLinkLeave, true);
-    return () => {
-      document.removeEventListener("mouseenter", handleLinkEnter, true);
-      document.removeEventListener("mouseleave", handleLinkLeave, true);
-    };
-  }, []);
 
   return (
     <div className="avatar-container" ref={mountRef}>

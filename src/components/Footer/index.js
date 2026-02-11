@@ -5,8 +5,12 @@ import * as React from "react";
 import "./index.scss";
 
 const Footer = () => {
-  const pathname =
-    typeof window !== "undefined" ? window?.location?.pathname : "";
+  const [pathname, setPathname] = React.useState("");
+
+  React.useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
+
   return (
     <footer className="footer">
       <ul className="list">

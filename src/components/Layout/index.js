@@ -13,8 +13,6 @@ import { toggleTheme, getTheme, setupTheme } from "../../utils/theme";
 export const State = React.createContext(false);
 
 const Layout = ({ children }) => {
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth < 730 : true;
   const [modalIsOpened, setModalIsOpened] = React.useState(false);
   const [modalMessage, setModalMessage] = React.useState(null);
   const [copied, setCopied] = React.useState(false);

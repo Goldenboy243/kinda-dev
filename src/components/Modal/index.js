@@ -44,7 +44,7 @@ const Modal = () => {
     });
 
     const isDesktop =
-      typeof window !== "undefined" ? window.innerWidth > 730 : true;
+      typeof window !== "undefined" ? window.innerWidth > 768 : true;
 
     if (modalIsOpened && isDesktop) {
       document.querySelector("#shortcutid").focus();

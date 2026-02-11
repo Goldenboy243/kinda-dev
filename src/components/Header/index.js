@@ -6,18 +6,20 @@ import { State } from "../Layout";
 // Styles
 import "./index.scss";
 
-const Header = ({ onThemeChange, theme, disableScramble = false }) => {
+const Header = ({ isHomePage = false, onThemeChange, theme, disableScramble = false }) => {
   const { setModalIsOpened, setModalMessage } = React.useContext(State);
-  const pathname =
-    typeof window !== "undefined" ? window?.location?.pathname : "";
+  const [pathname, setPathname] = React.useState("");
+  const [isMobile, setIsMobile] = React.useState(false);
 
-  const isMobile =
-    typeof window !== "undefined" ? window.innerWidth < 730 : true;
+  React.useEffect(() => {
+    setPathname(window.location.pathname);
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   return (
     <header className="header">
-      {pathname === "/" ? (
-        <div className="header-holder w-[100px] sm:w-[33%]">
+      {isHomePage ? (
+        <div className="header-holder flex-1 min-w-0">
           <p className="text-[var(--tw-text-gray-secondary)] sm:text-[18px] text-[14px]">
             <ScrambleText
               text={`Based on`}
@@ -26,19 +28,11 @@ const Header = ({ onThemeChange, theme, disableScramble = false }) => {
             />{" "}
             <strong className="underline">
               <small className="sm:text-[18px] text-[14px]">
-                {!isMobile ? (
-                  <ScrambleText
-                    text={`Earth`}
-                    className="scramble-text"
-                    duration={3}
-                  />
-                ) : (
-                  <ScrambleText
-                    text={`Earth`}
-                    className="scramble-text"
-                    duration={3}
-                  />
-                )}
+                <ScrambleText
+                  text={`Earth`}
+                  className="scramble-text"
+                  duration={3}
+                />
               </small>
             </strong>
           </p>
@@ -61,7 +55,7 @@ const Header = ({ onThemeChange, theme, disableScramble = false }) => {
           </p>
         </div>
       ) : (
-        <p className="w-[100px] sm:w-[33%]">
+        <p className="flex-1 min-w-0">
           {!isMobile ? (
             <Link to="/" className="sm:text-[18px] text-[14px]">
               {!disableScramble ? (
@@ -89,7 +83,7 @@ const Header = ({ onThemeChange, theme, disableScramble = false }) => {
           )}
         </p>
       )}
-      <div className="header-logo text-[var(--color-total)] w-[100px] sm:w-[33%] flex justify-center">
+      <div className="header-logo text-[var(--color-total)] flex-1 min-w-0 flex justify-center text-center">
         <Link to="/">
           {!disableScramble ? (
             <ScrambleText
@@ -104,7 +98,7 @@ const Header = ({ onThemeChange, theme, disableScramble = false }) => {
         </Link>
       </div>
 
-      <ul className="header-list w-[100px] sm:w-[33%]">
+      <ul className="header-list flex-1 min-w-0">
         <li>
           <Link
             to="/about/"

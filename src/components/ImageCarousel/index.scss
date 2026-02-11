@@ -221,14 +221,22 @@
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--border-secondary);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
+  position: relative;
+
+  // Expand touch target to 44px minimum
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -16px;
+  }
 
   &:hover {
     background: var(--tw-text-gray-secondary);
@@ -321,7 +329,7 @@
   }
 
   .carousel-slide {
-    width: 300px;
+    width: min(300px, 80vw);
   }
 
   .slide-image-wrapper {
@@ -370,7 +378,7 @@
 
 @media (max-width: 480px) {
   .carousel-slide {
-    width: 260px;
+    width: min(260px, 85vw);
   }
 
   .carousel-container {
@@ -378,6 +386,16 @@
   }
 
   .carousel-nav {
-    display: none;
+    padding: 0 5px;
+  }
+
+  .nav-button {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
   }
 }

@@ -2,7 +2,7 @@
   line-height: 1.8em;
   font-size: 14px;
 
-  @media (min-width: 730px) {
+  @media (min-width: 768px) {
     font-size: 20px;
   }
 }
@@ -10,25 +10,29 @@
 .banner-title {
   font-size: 4rem;
   line-height: 1;
-  margin-top: -50px;
 
-  @media (min-width: 1368px) {
+  @media (min-width: 1280px) {
     font-size: 5rem;
     line-height: 0.9;
   }
 }
 
 .banner-holder {
-  @media (max-width: 1368px) {
+  // On screens below xl (1280px), stack vertically and offset above center
+  // so text sits above the avatar's shoulders
+  padding-bottom: 30svh;
+  pointer-events: none;
+
+  // Allow clicks on interactive children
+  a, button, .shortcut, [onclick], span[class*="cursor"] {
+    pointer-events: auto;
+  }
+
+  @media (max-width: 1279px) {
     flex-direction: column;
-    justify-content: center;
     text-align: center;
     align-items: center;
-    margin-top: -300px;
-
-    @media (max-width: 490px) {
-      margin-top: -200px;
-    }
+    padding-bottom: 35svh;
 
     .banner-title {
       font-size: 3rem;
@@ -36,10 +40,7 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 20px;
-
-      @media (max-width: 490px) {
-        font-size: 2rem;
-      }
+      margin-top: 0;
     }
 
     .banner-description {
@@ -47,14 +48,28 @@
       justify-content: center;
       align-items: center;
       padding: 0;
-
-      @media (max-width: 490px) {
-        max-width: 300px;
-      }
     }
   }
 
-  
+  @media (max-width: 640px) {
+    padding-bottom: 30svh;
+
+    .banner-title {
+      font-size: 2.25rem;
+    }
+
+    .banner-description {
+      max-width: 300px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    padding-bottom: 25svh;
+
+    .banner-title {
+      font-size: 2rem;
+    }
+  }
 }
 
 .banner-subtitle {
@@ -94,7 +109,13 @@
   left: 0;
   right: 0;
   padding: 20px;
-  height: 0;
+  z-index: 60;
+  pointer-events: none;
+
+  // Re-enable clicks on all interactive elements
+  a, button, span, p, li, div {
+    pointer-events: auto;
+  }
 
   .header-list {
     position: relative;
@@ -136,7 +157,7 @@
   .blog-intro {
     header p[class*="text-[80px]"] {
       font-size: 50px;
-      @media (min-width: 730px) {
+      @media (min-width: 768px) {
         font-size: 80px;
       }
     }
@@ -146,7 +167,7 @@
       font-size: 18px;
       line-height: 36px;
 
-      @media (min-width: 730px) {
+      @media (min-width: 768px) {
         font-size: 26px;
         line-height: 50px;
       }
@@ -155,7 +176,7 @@
     // Title line-height
     h3[class*="leading-[60px]"] {
       line-height: 40px;
-      @media (min-width: 730px) {
+      @media (min-width: 768px) {
         line-height: 60px;
       }
     }
@@ -216,7 +237,6 @@
 
 .blog-ticker-title {
   position: fixed;
-  bottom: 65px;
 }
 
 @keyframes ticker {

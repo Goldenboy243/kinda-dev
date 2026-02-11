@@ -20,7 +20,6 @@ import ScrambleText from "../components/ScrambleText";
 
 const IndexPage = () => {
   const [isOpened, setIsOpened] = React.useState(true);
-  const avatarRef = React.useRef(null);
   const { theme, onThemeChange } = React.useContext(State);
 
   React.useEffect(() => {
@@ -34,13 +33,13 @@ const IndexPage = () => {
       <Cursor />
       <div className="home overflow-hidden">
         <Loader isOpened={isOpened} duration={1} />
-        <Header hideShortcut onThemeChange={onThemeChange} theme={theme} />
+        <Header isHomePage onThemeChange={onThemeChange} theme={theme} />
         <main className="overflow-hidden">
           <div className="avatar-section">
             <Avatar theme={theme} />
           </div>
-          <div className="w-[90svw] banner-holder z-50 pt-[100px] sm:pointer-events-none fixed flex justify-center items-center">
-            <h1 className="banner-title flex text-[var(--tw-text-gray-primary)] flex-col items-end h-full text-right font-bold w-full max-w-[300px] flex-shrink-0">
+          <div className="banner-holder z-50 fixed inset-0 flex justify-center items-center">
+            <h1 className="banner-title flex text-[var(--tw-text-gray-primary)] flex-col items-end text-right font-bold w-full max-w-[300px] flex-shrink-0">
               <ScrambleText
                 text="Nathan"
                 className="scramble-text w-full"
@@ -55,8 +54,8 @@ const IndexPage = () => {
                 placeholder="."
               />
             </h1>
-            <span className="hidden lg:block w-[420px]"> </span>
-            <div className="banner-description w-full max-w-[350px] mt-[0px] text-left 2xl:mt-[-30px] flex justify-end flex-col pl-0 lg:pl-[80px] items-start">
+            <span className="hidden xl:block w-[420px]"> </span>
+            <div className="banner-description w-full max-w-[350px] text-left flex justify-end flex-col pl-0 xl:pl-[80px] items-start">
               <p className="mb-4 sm:mb-7">
                 A{" "}
                 <strong className="text-[var(--tw-text-gray-primary)] font-bold">
@@ -76,7 +75,7 @@ const IndexPage = () => {
           <Link
             to="/blog"
             title="soon"
-            className="blog-ticker-title  text-[var(--tw-text-gray-secondary)] fixed z-[100] left-[20px] sm:text-[18px] text-[14px]"
+            className="blog-ticker-title text-[var(--tw-text-gray-secondary)] fixed z-[100] left-[20px] sm:text-[18px] text-[14px] bottom-[60px] sm:bottom-[65px]"
           >
             <ScrambleText
               text={`Latest posts ↓`}
@@ -84,7 +83,7 @@ const IndexPage = () => {
               duration={2}
             />
           </Link>
-          <p className="fixed z-[100] sm:text-[18px] text-right text-underline sm:bottom-[60px] text-[14px] right-[20px] text-[var(--tw-text-gray-secondary)] bottom-[65px]">
+          <p className="fixed z-[100] sm:text-[18px] text-right sm:bottom-[65px] text-[14px] right-[20px] text-[var(--tw-text-gray-secondary)] bottom-[60px]">
             <ScrambleText
               text={`Like this website?`}
               className="scramble-text"
