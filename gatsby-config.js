@@ -2,6 +2,9 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
+  flags: {
+    DEV_SSR: false,
+  },
   siteMetadata: {
     title: `Nathan Kinda - Software Engineer`,
     siteUrl: `https://nathankinda.com`,

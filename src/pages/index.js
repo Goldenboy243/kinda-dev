@@ -20,12 +20,16 @@ import ScrambleText from "../components/ScrambleText";
 
 const IndexPage = () => {
   const [isOpened, setIsOpened] = React.useState(true);
+  const [showContent, setShowContent] = React.useState(false);
   const { theme, onThemeChange } = React.useContext(State);
 
   React.useEffect(() => {
     setTimeout(() => {
       setIsOpened(false);
     }, 1500);
+    setTimeout(() => {
+      setShowContent(true);
+    }, 1600);
   }, []);
 
   return (
@@ -72,33 +76,35 @@ const IndexPage = () => {
             </div>
           </div>
 
-          <Link
-            to="/blog"
-            title="soon"
-            className="blog-ticker-title text-[var(--tw-text-gray-secondary)] fixed z-[100] left-[20px] sm:text-[18px] text-[14px] bottom-[60px] sm:bottom-[65px]"
-          >
-            <ScrambleText
-              text={`Latest posts ↓`}
-              className="scramble-text"
-              duration={2}
-            />
-          </Link>
-          <p className="fixed z-[100] sm:text-[18px] text-right sm:bottom-[65px] text-[14px] right-[20px] text-[var(--tw-text-gray-secondary)] bottom-[60px]">
-            <ScrambleText
-              text={`Like this website?`}
-              className="scramble-text"
-              duration={2}
-            />
-            <a className="underline " href="https://github.com/Goldenboy243">
-              <ScrambleText
-                text={`Copy here`}
-                className="scramble-text"
-                duration={2}
-              />
-            </a>
-          </p>
-          <div className="blog-ticker">
-            <div className="blog-ticker-wrapper">
+          {showContent && (
+            <>
+              <Link
+                to="/blog"
+                title="soon"
+                className="blog-ticker-title text-[var(--tw-text-gray-secondary)] fixed z-[100] left-[20px] sm:text-[18px] text-[14px] bottom-[60px] sm:bottom-[65px]"
+              >
+                <ScrambleText
+                  text={`Latest posts ↓`}
+                  className="scramble-text"
+                  duration={2}
+                />
+              </Link>
+              <p className="fixed z-[100] sm:text-[18px] text-right sm:bottom-[65px] text-[14px] right-[20px] text-[var(--tw-text-gray-secondary)] bottom-[60px]">
+                <ScrambleText
+                  text={`Like this website?`}
+                  className="scramble-text"
+                  duration={2}
+                />
+                <a className="underline " href="https://github.com/Goldenboy243">
+                  <ScrambleText
+                    text={`Copy here`}
+                    className="scramble-text"
+                    duration={2}
+                  />
+                </a>
+              </p>
+              <div className="blog-ticker">
+                <div className="blog-ticker-wrapper">
               {articles
                 .flatMap((yearGroup) => yearGroup.posts)
                 .filter((post) => post.active)
@@ -126,8 +132,10 @@ const IndexPage = () => {
                     </a>
                   );
                 })}
+              </div>
             </div>
-          </div>
+            </>
+          )}
         </main>
         <Footer />
       </div>

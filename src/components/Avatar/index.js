@@ -43,23 +43,23 @@ const Avatar = forwardRef(({ theme }, ref) => {
 
   const getModelScale = () => {
     const w = window.innerWidth;
-    // Smooth scale curve based on viewport width
-    // Mobile (<= 480): 0.35, Tablet (~768): 0.5, Desktop (~1280): 0.65, Large (1920+): 0.8
+    // Scale factors matched to original values:
+    // Mobile (≤480): 0.5, Tablet (768): 0.65, Desktop (1280+): 1.0, Large (1920+): 0.9
     let factor;
     if (w <= 480) {
-      factor = 0.35;
+      factor = 0.5;
     } else if (w <= 768) {
-      // Interpolate 0.35 → 0.5
-      factor = 0.35 + (0.15 * (w - 480)) / (768 - 480);
-    } else if (w <= 1280) {
       // Interpolate 0.5 → 0.65
-      factor = 0.5 + (0.15 * (w - 768)) / (1280 - 768);
+      factor = 0.5 + (0.15 * (w - 480)) / (768 - 480);
+    } else if (w <= 1280) {
+      // Interpolate 0.65 → 1.0
+      factor = 0.65 + (0.35 * (w - 768)) / (1280 - 768);
     } else if (w <= 1920) {
-      // Interpolate 0.65 → 0.8
-      factor = 0.65 + (0.15 * (w - 1280)) / (1920 - 1280);
+      // Stay at 1.0 for the main desktop range
+      factor = 1.0;
     } else {
-      // 1920+ → cap at 0.85
-      factor = Math.min(0.85, 0.8 + (0.05 * (w - 1920)) / (2560 - 1920));
+      // 1920+ → taper to 0.85 at 2560+
+      factor = Math.max(0.85, 1.0 - (0.15 * (w - 1920)) / (2560 - 1920));
     }
     return baseScaleRef.current * factor;
   };
@@ -106,11 +106,11 @@ const Avatar = forwardRef(({ theme }, ref) => {
     headCenter.y += yOffset;
 
     const camera = controlsRef.current.object;
-    // Responsive FOV: wider on mobile so avatar isn't cropped
-    const fov = w <= 480 ? 24 : w <= 768 ? 22 : 18;
+    // Responsive FOV: tighter on desktop for head-only framing
+    const fov = w <= 480 ? 22 : w <= 768 ? 20 : 15;
     camera.fov = fov;
-    // Responsive camera distance: closer on mobile
-    const camZ = w <= 480 ? 2.4 : w <= 768 ? 2.6 : 2.9;
+    // Responsive camera distance
+    const camZ = w <= 480 ? 2.2 : w <= 768 ? 2.5 : 2.8;
     const yBias = 0.25;
     camera.position.set(headCenter.x, headCenter.y + yBias, camZ);
     camera.lookAt(headCenter.x, headCenter.y + yBias, headCenter.z);
@@ -231,11 +231,21 @@ const Avatar = forwardRef(({ theme }, ref) => {
       THREE: THREE.TOUCH.NONE,
     };
     controlsRef.current = controls;
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
-    const material = new THREE.MeshPhongMaterial({
-      color: 0x00ff00,
-      wireframe: true,
-    });
+
+    // Set initial camera to head-framing position before model loads
+    // Responsive to viewport so there's no jump when focusOnHead runs
+    const initW = window.innerWidth;
+    const initFov = initW <= 480 ? 22 : initW <= 768 ? 20 : 15;
+    const initCamZ = initW <= 480 ? 2.2 : initW <= 768 ? 2.5 : 2.8;
+    camera.fov = initFov;
+    camera.position.set(0, 0.25, initCamZ);
+    camera.lookAt(0, 0.25, 0);
+    controls.target.set(0, 0.25, 0);
+    camera.updateProjectionMatrix();
+
+    // Hidden placeholder (invisible) — replaced when model loads
+    const geometry = new THREE.BoxGeometry(0.01, 0.01, 0.01);
+    const material = new THREE.MeshBasicMaterial({ visible: false });
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
     modelRef.current = cube;

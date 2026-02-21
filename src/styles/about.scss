@@ -65,8 +65,12 @@
 
     @media (min-width: 768px) {
       max-width: 530px;
-      padding: 20px 0 0 100px;
+      padding: 20px 0 0 40px;
       width: 75%;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 20px 0 0 100px;
     }
   }
 

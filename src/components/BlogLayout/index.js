@@ -24,7 +24,7 @@ const BlogLayout = ({ id, emoji, title, date, children }) => {
       <div className="post">
         <Loader isOpened={isOpened} duration={0.5} />
         <Header goBackToHome={true} disableScramble={true} />
-        <main className="flex flex-col mb-10 max-w-[900px]">
+        <main className="flex flex-col mb-10 max-w-[900px] w-full mx-auto">
           <article className="blog-intro">
             <header className="px-[5%] mb-4">
               <p className="mb-3 text-[80px]">{emoji}</p>

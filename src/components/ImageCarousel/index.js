@@ -11,30 +11,25 @@ const ImageCarousel = ({ experiments = [] }) => {
 
   const totalSlides = experiments.length;
 
-  // Initialize slides refs
+  // Initialize slides refs and positions — re-run when experiments change (filtering)
   React.useEffect(() => {
     slidesRef.current = slidesRef.current.slice(0, totalSlides);
-  }, [totalSlides]);
-
-  // Set initial positions
-  React.useEffect(() => {
-    if (slidesRef.current.length === 0) return;
+    setCurrentIndex(0);
 
     slidesRef.current.forEach((slide, index) => {
       if (!slide) return;
       
-      const offset = index - currentIndex;
       gsap.set(slide, {
-        zIndex: totalSlides - Math.abs(offset),
-        scale: 1 - Math.abs(offset) * 0.12,
-        x: offset * 80,
-        y: offset * 25,
-        opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.25 : 0.08,
-        rotationY: offset * -8,
-        filter: offset === 0 ? 'blur(0px) grayscale(0)' : `blur(${Math.abs(offset) * 3}px) grayscale(0.5)`,
+        zIndex: totalSlides - Math.abs(index),
+        scale: 1 - Math.abs(index) * 0.12,
+        x: index * 80,
+        y: index * 25,
+        opacity: index === 0 ? 1 : Math.abs(index) === 1 ? 0.25 : 0.08,
+        rotationY: index * -8,
+        filter: index === 0 ? 'blur(0px) grayscale(0)' : `blur(${Math.abs(index) * 3}px) grayscale(0.5)`,
       });
     });
-  }, []);
+  }, [totalSlides]);
 
   // Auto-play functionality
   React.useEffect(() => {
@@ -49,7 +44,7 @@ const ImageCarousel = ({ experiments = [] }) => {
         clearInterval(autoPlayRef.current);
       }
     };
-  }, [currentIndex, isAnimating]);
+  }, [currentIndex, isAnimating, totalSlides]);
 
   const animateSlides = (newIndex) => {
     if (isAnimating || newIndex === currentIndex) return;
