@@ -12,16 +12,8 @@ const Cursor = () => {
     const $outline = document.querySelector(".ppk-dot-outline");
     if (!$outline) return;
 
-    const delay = 8;
-    let _x = 0;
-    let _y = 0;
-    let endX = window.innerWidth / 2;
-    let endY = window.innerHeight / 2;
     let cursorVisible = true;
     let cursorEnlarged = false;
-    let animationId = null;
-
-    const outlineSize = $outline.offsetWidth;
 
     const toggleCursorSize = () => {
       if (cursorEnlarged) {
@@ -35,14 +27,6 @@ const Cursor = () => {
 
     const toggleCursorVisibility = () => {
       $outline.style.opacity = cursorVisible ? 1 : 0;
-    };
-
-    const animateDotOutline = () => {
-      _x += (endX - _x) / delay;
-      _y += (endY - _y) / delay;
-      $outline.style.top = _y + "px";
-      $outline.style.left = _x + "px";
-      animationId = requestAnimationFrame(animateDotOutline);
     };
 
     const handleMouseOver = (e) => {
@@ -59,34 +43,28 @@ const Cursor = () => {
     };
     const handleMouseDown = () => { cursorEnlarged = true; toggleCursorSize(); };
     const handleMouseUp = () => { cursorEnlarged = false; toggleCursorSize(); };
-    const handleMouseMove = (e) => {
+    const handlePointerMove = (e) => {
       cursorVisible = true;
       toggleCursorVisibility();
-      endX = e.clientX;
-      endY = e.clientY;
+      $outline.style.left = `${e.clientX}px`;
+      $outline.style.top = `${e.clientY}px`;
     };
-    const handleMouseEnter = () => { cursorVisible = true; toggleCursorVisibility(); $outline.style.opacity = 1; };
-    const handleMouseLeave = () => { cursorVisible = false; toggleCursorVisibility(); $outline.style.opacity = 0; };
+    const handlePointerLeave = () => { cursorVisible = false; toggleCursorVisibility(); };
 
     document.addEventListener("mouseover", handleMouseOver);
     document.addEventListener("mouseout", handleMouseOut);
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mouseleave", handleMouseLeave);
-
-    animationId = requestAnimationFrame(animateDotOutline);
+    document.addEventListener("pointermove", handlePointerMove);
+    document.addEventListener("pointerleave", handlePointerLeave);
 
     return () => {
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseenter", handleMouseEnter);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      if (animationId) cancelAnimationFrame(animationId);
+      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerleave", handlePointerLeave);
     };
   }, []);
 

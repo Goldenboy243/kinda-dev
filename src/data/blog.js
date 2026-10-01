@@ -28,9 +28,9 @@ export const articles = [
       {
         id: "002",
         emoji: "🤖",
-        title: "Introduction to Artificial Intelligence",
-        description: "The difference between a failing grade and a finished assignment is a well-placed prompt.",
-        readTime: "4 min read",
+        title: "Artificial Intelligence, Before Superintelligence",
+        description: "A first encounter with AI, the systems we are building now, and the question of what comes after.",
+        readTime: "5 min read",
         link: "/blog/002-introduction-to-artificial-intelligence",
         active: true,
       },

@@ -23,17 +23,17 @@ End Function`;
 
 const Post = () => {
   return (
-    <BlogLayout id="002" emoji="🤖" title="Introduction to Artificial Intelligence" date="2023-04-01">
+    <BlogLayout id="002" emoji="🤖" title="Artificial Intelligence, Before Superintelligence" date="2023-04-01">
       <Seo
-        title="002. Introduction to Artificial Intelligence"
-        description="The difference between a failing grade and a finished assignment is a well-placed prompt."
+        title="002. Artificial Intelligence, Before Superintelligence"
+        description="A first encounter with AI, the systems we are building now, and the question of what comes after."
         pathname="/blog/002-introduction-to-artificial-intelligence"
         type="article"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "BlogPosting",
-          headline: "Introduction to Artificial Intelligence",
-          description: "The difference between a failing grade and a finished assignment is a well-placed prompt.",
+          headline: "Artificial Intelligence, Before Superintelligence",
+          description: "A first encounter with AI, the systems we are building now, and the question of what comes after.",
           author: { "@type": "Person", name: "Nathan Kinda" },
           datePublished: "2023-04-01",
           url: "https://nathankinda.com/blog/002-introduction-to-artificial-intelligence",
@@ -46,6 +46,7 @@ const Post = () => {
             <li className="mb-4"><strong>The Assignment:</strong> Build a registration system and a marks calculator that actually "thinks"—calculating averages and categories.</li>
             <li className="mb-4"><strong>The Panic:</strong> A looming deadline and a brain that still hadn't fully processed how <code className="bg-[var(--bg-secondary)] px-2 py-1 rounded text-[15px]">Function FindHighestMark</code> actually worked.</li>
             <li className="mb-4"><strong>The Lifeline:</strong> My first real interaction with ChatGPT. It didn't just write the code—it bridged the gap between my notes and the final product.</li>
+            <li className="mb-4"><strong>The Bigger Question:</strong> If today's systems can extend our thinking, what would it mean for a system to consistently exceed it?</li>
           </ul>
           <br />
           <br />
@@ -134,8 +135,21 @@ const Post = () => {
             This wasn't just an assignment. It was my introduction to the future of how I'd be building everything from then on. The difference between a failing grade and a finished project turned out to be a well-placed prompt.
           </p>
           <br />
+          <h4 className="text-[24px] md:text-[32px] font-bold mb-6 mt-12 md:mt-14 leading-tight">Before Superintelligence</h4>
+          <p>
+            That first conversation also changed the question I was asking. Artificial intelligence is not one single machine with one single level of ability. A marks calculator follows rules. A language model finds patterns and generates useful possibilities. A more general system would need to reason across unfamiliar problems, learn from experience, and understand when its own answer is unreliable.
+          </p>
+          <br />
+          <p>
+            Superintelligence is the name people give to the far end of that idea: a system whose ability to learn, reason, and solve problems is substantially beyond the best human minds. It is still a hypothesis, not a feature I can point to in a demo. That distinction matters. The responsible question is not whether every impressive model is secretly superintelligent, but how we build systems that remain useful, understandable, and accountable as their capabilities grow.
+          </p>
+          <br />
+          <p>
+            I started with a small assignment and a well-placed prompt. The larger lesson was that intelligence is not only about producing an answer. It is also about knowing what the answer depends on, where it can fail, and who remains responsible for the result.
+          </p>
+          <br />
           <p className="italic text-[16px] md:text-[22px]">
-            The logic is finally loading.
+            The logic is finally loading. The bigger questions are, too.
           </p>
         </section>
       </div>
