@@ -28,7 +28,7 @@ export const articles = [
       {
         id: "002",
         emoji: "🤖",
-        title: "Artificial Intelligence, Before Superintelligence",
+        title: "Introduction to Artificial Intelligence",
         description: "A first encounter with AI, the systems we are building now, and the question of what comes after.",
         readTime: "5 min read",
         link: "/blog/002-introduction-to-artificial-intelligence",
