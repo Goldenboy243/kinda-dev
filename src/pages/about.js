@@ -127,7 +127,7 @@ const panelMap = (index) => {
     ),
     5: (
       <ol className="career-path -academic">
-        {achievementsPath.map(({ role, details, description, link, paper }, index) => {
+        {achievementsPath.map(({ role, details, description, link, paper, certificate }, index) => {
           return (
             <li key={index} className="about-career-experience">
               <h4 className="role">{role}</h4>
@@ -142,6 +142,11 @@ const panelMap = (index) => {
               {paper && (
                 <a href={paper} target="_blank" rel="noopener noreferrer" className="link">
                   Read research paper
+                </a>
+              )}
+              {certificate && (
+                <a href={certificate} target="_blank" rel="noopener noreferrer" className="link">
+                  View publication certificate
                 </a>
               )}
             </li>

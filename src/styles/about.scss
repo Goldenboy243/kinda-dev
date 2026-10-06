@@ -27,7 +27,9 @@
   .link {
     color: var(--tw-text-gray-primary);
     text-decoration: none;
-    display: inline;
+    display: block;
+    width: fit-content;
+    margin-top: 8px;
     text-decoration: underline;
   }
 

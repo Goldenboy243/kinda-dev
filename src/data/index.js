@@ -12,7 +12,8 @@ import { FiCoffee } from "@react-icons/all-files/fi/FiCoffee";
 
 // Files
 import NathanKindaCV from "../files/Kinda_resume .pdf";
-import OfficeeasePaper from "../files/Officeease_paper.pdf";
+import ResearchPaper from "../files/Research_paper.pdf";
+import PublicationCertificate from "../files/IJRTI_publication_certificate.pdf";
 
 const bioDescription = ``;
 
@@ -102,7 +103,8 @@ const achievementsPath = [
     details: "Development of a Localized E-Learning Platform for Microsoft Office Tool",
     description: "Published in Volume 11, Issue 9 of the International Journal for Research Trends and Innovation in September 2026. Co-authors: Soe Myint, Thu Wai Aung, Myo Thandar, and Nidhi Pandey. Paper ID: IJRTI2609454.",
     link: "https://www.ijrti.org/",
-    paper: OfficeeasePaper,
+    paper: ResearchPaper,
+    certificate: PublicationCertificate,
   },
 ];
 
