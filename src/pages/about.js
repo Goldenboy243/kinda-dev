@@ -22,6 +22,7 @@ import {
   openSourcePath,
   volunteeringPath,
   hackingPath,
+  achievementsPath,
 } from "../data";
 
 // Images
@@ -117,6 +118,30 @@ const panelMap = (index) => {
               {link && (
                 <a href={link} target="_blank" rel="noopener noreferrer" className="link">
                   {link}
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    ),
+    5: (
+      <ol className="career-path -academic">
+        {achievementsPath.map(({ role, details, description, link, paper }, index) => {
+          return (
+            <li key={index} className="about-career-experience">
+              <h4 className="role">{role}</h4>
+              <br />
+              <h5 className="infos">{details}</h5>
+              <p className="description">{description}</p>
+              {link && (
+                <a href={link} target="_blank" rel="noopener noreferrer" className="link">
+                  Verify publication venue
+                </a>
+              )}
+              {paper && (
+                <a href={paper} target="_blank" rel="noopener noreferrer" className="link">
+                  Read research paper
                 </a>
               )}
             </li>
@@ -238,6 +263,10 @@ const About = () => {
                 },
                 {
                   title: "Hacking",
+                  isBlocked: false,
+                },
+                {
+                  title: "Achievements",
                   isBlocked: false,
                 },
               ].map(({ title, isBlocked }, index) => {

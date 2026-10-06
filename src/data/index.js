@@ -12,6 +12,7 @@ import { FiCoffee } from "@react-icons/all-files/fi/FiCoffee";
 
 // Files
 import NathanKindaCV from "../files/Kinda_resume .pdf";
+import OfficeeasePaper from "../files/Officeease_paper.pdf";
 
 const bioDescription = ``;
 
@@ -95,6 +96,16 @@ const hackingPath = [
   },
 ];
 
+const achievementsPath = [
+  {
+    role: "Research Paper Published",
+    details: "Development of a Localized E-Learning Platform for Microsoft Office Tool",
+    description: "Published in Volume 11, Issue 9 of the International Journal for Research Trends and Innovation in September 2026. Co-authors: Soe Myint, Thu Wai Aung, Myo Thandar, and Nidhi Pandey. Paper ID: IJRTI2609454.",
+    link: "https://www.ijrti.org/",
+    paper: OfficeeasePaper,
+  },
+];
+
 const quickActionList = [
   {
     text: "Copy link",
@@ -161,4 +172,5 @@ export {
   openSourcePath,
   volunteeringPath,
   hackingPath,
+  achievementsPath,
 };
